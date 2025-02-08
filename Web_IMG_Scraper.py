@@ -40,19 +40,29 @@ class downloading:
     def download_img(self, img_urls):
         # 파일명에 순서대로 번호 붙이기
         for i, download_link in enumerate(img_urls, start=1):
-            response = requests.get(download_link)
+            try:
+                response = requests.get(download_link, timeout=10)  # 10초 타임아웃
 
-            if response.status_code == 200:     # 다운로드가 성공한 경우
-                file_name = f"{i}_{os.path.basename(download_link)}"
-                # file_name = f"{i}_{os.path.basename('.jpg')}" 확장자가 링크에 없는 경우
+                file_name = f"{i}_{os.path.basename(download_link) or f'{i}_image.jpg'}"
                 file_path = os.path.join(self.save_folder, file_name)
 
                 with open(file_path, 'wb') as file:
                     file.write(response.content)
+
                 time.sleep(0.5)   # 각 요청 사이에 0.5초 지연(서버 과부하 방지)
                 print(f"파일 {i} ({file_name}) 저장 완료")
-            else:
-                print(f"파일 {i} 저장 실패: {download_link}")
+
+            # 예외처리
+            except requests.exceptions.RequestException as e:
+                print(f"파일 {i} 네트워크 문제로 다운로드 오류: {e}")
+            except IOError as e:
+                print(f"파일 {i} 저장 오류: {e}")
+            except Exception as e:
+                print (f"파일 {i} 예기치 않은 오류 발생: {e}")
+        
+        # 파일 다운로드가 다 끝나면 완료 메시지 띄우기
+        print("모든 이미지 다운로드 완료!")
+
         
 # 실행 코드
 web_link = input("스크래핑할 웹페이지 주소를 입력해주세요: ")
