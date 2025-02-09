@@ -1,0 +1,7 @@
+selenium
+requests
+tkinter
+
+콘솔에서 아래 명령을 실행시켜주세요.
+pip install -r requirements.txt
+
