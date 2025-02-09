@@ -1,6 +1,8 @@
 __pycache__/
 *.pyc
 *.pyo
+*.spec
+dist/
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,python
