@@ -43,7 +43,7 @@ class Downloader:
             try:
                 response = requests.get(download_link, timeout=10)  # 10초 타임아웃
 
-                file_name = f"{i}_{os.path.basename(download_link) or f'{i}_image.jpg'}"
+                file_name = f"{i}_{os.path.basename(download_link)}"
                 file_path = os.path.join(self.save_folder, file_name)
 
                 with open(file_path, 'wb') as file:
