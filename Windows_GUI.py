@@ -2,6 +2,8 @@
 # GUI 라이브러리
 from tkinter import *
 from tkinter import messagebox
+# 웹페이지 여는 라이브러리
+import webbrowser
 # 절대 경로로 모듈 import 하도록 도와주는 라이브러리
 import sys
 import os
@@ -36,8 +38,8 @@ def focus_out(event):
         link.config(fg="gray")
 
 # 웹사이트 url 입력하는 공간
-link = Entry(main_frame, width=50, fg="gray")
-link.grid(row=0, column=0, pady=20)
+link = Entry(main_frame, width=48, fg="gray")
+link.grid(row=0, column=0, padx=4, pady=18)
 link.insert(0, "여기에 링크를 입력하세요")
 
 link.bind("<FocusIn>", focus_in)    # 입력창 클릭 시 실행
@@ -63,8 +65,8 @@ def input_reset():
     link.config(fg="black")
 
 # 이미지 저장 버튼
-Download_btn = Button(main_frame, text="Download", width=20, height=2, command=downloading)
-Download_btn.grid(row=1, column=0, pady=(0, 25))
+Download_btn = Button(main_frame, text="다운로드", width=20, height=2, command=downloading)
+Download_btn.grid(row=1, column=0, pady=(0, 10))
 # 링크 초기화 버튼
 Reset_btn = Button(main_frame, text="reset", command=input_reset)
 Reset_btn.grid(row=0, column=1)
@@ -73,13 +75,34 @@ Reset_btn.grid(row=0, column=1)
 bottom_frame = Frame(root, relief="solid", bd=1)
 bottom_frame.pack(fill=X, padx=5, pady=(5, 0))
 
-btn1 = Button(bottom_frame, width=10, text="test1")
-btn1.grid(row=0, column=0, padx=(18, 5))
-btn2 = Button(bottom_frame, width=10, text="test2")
+# 하단 프레임 버튼 함수
+# 블로그 웹페이지 연결 함수
+def open_blog():
+    webbrowser.open("https://blog.naver.com/PostList.naver?blogId=oh_don23&from=postList&categoryNo=24")
+# 업데이트 웹페이지 연결 함수
+def open_github():
+    webbrowser.open("https://github.com/Oh-don23/Web_IMG_Scraper")
+# 저장된 이미지 폴더 열기
+def open_IMG_folder():
+    folder_path = os.path.join(os.getcwd(), "images")
+
+    if not os.path.exists(folder_path):
+        messagebox.showerror("오류!", "이미지 저장 폴더가 생성되지 않았습니다.")
+    else: os.startfile(folder_path)
+# 종료 버튼 함수
+def close_program():
+    root.quit()
+
+btn1 = Button(bottom_frame, width=11, text="제작자 블로그", command=open_blog)
+btn1.grid(row=0, column=0, padx=(4, 5))
+btn2 = Button(bottom_frame, width=11, text="업데이트 확인", command=open_github)
 btn2.grid(row=0, column=1, padx=5)
-btn3 = Button(bottom_frame, width=10, text="test3")
+btn3 = Button(bottom_frame, width=11, text="저장폴더 열기", command=open_IMG_folder)
 btn3.grid(row=0, column=2, padx=5)
-btn4 = Button(bottom_frame, width=10, text="test4")
+btn4 = Button(bottom_frame, width=11, text="종료", command=close_program)
 btn4.grid(row=0, column=3, padx=5)
+
+bottom_label = Label(root, text="https://github.com/Oh-don23/Web_IMG_Scraper", fg="gray")
+bottom_label.pack()
 
 root.mainloop()
