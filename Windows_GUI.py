@@ -17,6 +17,7 @@ root = Tk()
 root.title("Web IMG Scraper")   # 윈도우 창 제목 변경
 root.geometry("400x200")    # 가로 * 세로 창 크기 조절
 root.resizable(False, False)    # 창 크기 변경 불가
+root.iconbitmap("icons/icon.ico")
 
 # 간단한 프로그램 설명
 MainLable = Label(root, text="웹사이트 이미지 일괄 다운로드 프로그램입니다.\n웹사이트 링크를 아래에 입력 후 저장 버튼을 눌러주세요.")
