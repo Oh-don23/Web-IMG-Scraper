@@ -38,8 +38,8 @@ def focus_out(event):
         link.config(fg="gray")
 
 # 웹사이트 url 입력하는 공간
-link = Entry(main_frame, width=48, fg="gray")
-link.grid(row=0, column=0, padx=4, pady=18)
+link = Entry(main_frame, width=47, fg="gray")
+link.grid(row=0, column=0, padx=3, pady=18)
 link.insert(0, "여기에 링크를 입력하세요")
 
 link.bind("<FocusIn>", focus_in)    # 입력창 클릭 시 실행
@@ -68,7 +68,7 @@ def input_reset():
 Download_btn = Button(main_frame, text="다운로드", width=20, height=2, command=downloading)
 Download_btn.grid(row=1, column=0, pady=(0, 10))
 # 링크 초기화 버튼
-Reset_btn = Button(main_frame, text="reset", command=input_reset)
+Reset_btn = Button(main_frame, text="지우기", command=input_reset)
 Reset_btn.grid(row=0, column=1)
 
 # 하단 프레임
