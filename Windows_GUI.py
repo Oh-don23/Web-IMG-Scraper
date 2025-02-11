@@ -1,6 +1,7 @@
 # 라이브러리 호출
 # GUI 라이브러리
 from tkinter import *
+from tkinter import messagebox
 # 절대 경로로 모듈 import 하도록 도와주는 라이브러리
 import sys
 import os
@@ -12,29 +13,73 @@ from Web_IMG_Scraper.Scripts.Web_SD import Scraper, Downloader
 
 root = Tk()
 root.title("Web IMG Scraper")   # 윈도우 창 제목 변경
-root.geometry("640x480")    # 가로 * 세로 창 크기 조절
+root.geometry("400x200")    # 가로 * 세로 창 크기 조절
 root.resizable(False, False)    # 창 크기 변경 불가
 
-# 이미지 링크 삽입하는 공간
-MainLable = Label(root, text="Link")
+# 간단한 프로그램 설명
+MainLable = Label(root, text="웹사이트 이미지 일괄 다운로드 프로그램입니다.\n웹사이트 링크를 아래에 입력 후 저장 버튼을 눌러주세요.")
 MainLable.pack()
 
-link = Entry(root, width=50)
-link.pack()
-link.insert(0, "링크를 입력하세요")
+# 메인 프레임
+main_frame = Frame(root, relief="solid", bd=1)
+main_frame.pack(fill=X, padx=5)
 
+# 입력창 클릭 시 문구 없애는 함수
+def focus_in(event):
+    if link.get() == "여기에 링크를 입력하세요":
+        link.delete(0, END)
+        link.config(fg="black")
+# 입력창에서 벗어나면 다시 문구 생성하는 함수
+def focus_out(event):
+    if link.get() == "":
+        link.insert(0, "여기에 링크를 입력하세요")
+        link.config(fg="gray")
+
+# 웹사이트 url 입력하는 공간
+link = Entry(main_frame, width=50, fg="gray")
+link.grid(row=0, column=0, pady=20)
+link.insert(0, "여기에 링크를 입력하세요")
+
+link.bind("<FocusIn>", focus_in)    # 입력창 클릭 시 실행
+link.bind("<FocusOut>", focus_out)  # 입력창에서 벗어나면 실행
+
+# 이미지 저장 버튼 관련 함수
 def downloading():
-    target_url = link.get()
-    Download_btn.config(text="다운로드 중")
-    gui_scraper = Scraper(target_url)
-    img_links = gui_scraper.find_img_links()
-    gui_downloader = Downloader()
-    gui_downloader.download_img(img_links)
-    gui_scraper.close()
-    Download_btn.config(text="다운로드 완료")
+    # url을 제대로 입력하지 않았을 경우 경고 문구 출력
+    if link.get() in ["여기에 링크를 입력하세요", ""]:
+        messagebox.showerror("오류!", "올바른 url을 입력해주세요.")
+    else:
+        target_url = link.get()
+        Download_btn.config(text="다운로드 중")
+        gui_scraper = Scraper(target_url)
+        img_links = gui_scraper.find_img_links()
+        gui_downloader = Downloader()
+        gui_downloader.download_img(img_links)
+        gui_scraper.close()
+        Download_btn.config(text="다운로드 완료")
+# 링크 초기화 관련 함수
+def input_reset():
+    link.delete(0, END)
+    link.config(fg="black")
 
-Download_btn = Button(root, text="Download", command=downloading)
-Download_btn.pack()
+# 이미지 저장 버튼
+Download_btn = Button(main_frame, text="Download", width=20, height=2, command=downloading)
+Download_btn.grid(row=1, column=0, pady=(0, 25))
+# 링크 초기화 버튼
+Reset_btn = Button(main_frame, text="reset", command=input_reset)
+Reset_btn.grid(row=0, column=1)
 
+# 하단 프레임
+bottom_frame = Frame(root, relief="solid", bd=1)
+bottom_frame.pack(fill=X, padx=5, pady=(5, 0))
+
+btn1 = Button(bottom_frame, width=10, text="test1")
+btn1.grid(row=0, column=0, padx=(18, 5))
+btn2 = Button(bottom_frame, width=10, text="test2")
+btn2.grid(row=0, column=1, padx=5)
+btn3 = Button(bottom_frame, width=10, text="test3")
+btn3.grid(row=0, column=2, padx=5)
+btn4 = Button(bottom_frame, width=10, text="test4")
+btn4.grid(row=0, column=3, padx=5)
 
 root.mainloop()
