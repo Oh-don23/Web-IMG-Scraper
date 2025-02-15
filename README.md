@@ -26,7 +26,7 @@
 
 [프로그램 기능 제안 작성법](https://github.com/Oh-don23/Web_IMG_Scraper/issues/3)
 
-### 🌐 개발자 블로그
+## 🌐 개발자 블로그
 [네이버 블로그](https://blog.naver.com/oh_don23) 
 
 https://blog.naver.com/oh_don23
